@@ -89,7 +89,7 @@ class _AdminProductFormScreenState extends State<AdminProductFormScreen> {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
-      imageQuality: 50,
+      imageQuality: 75, // Balanced for fast upload but crisp details
       maxWidth: 1024,
     );
     if (pickedFile != null) {

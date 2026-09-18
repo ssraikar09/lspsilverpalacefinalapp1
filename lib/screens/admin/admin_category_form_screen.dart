@@ -45,7 +45,11 @@ class _AdminCategoryFormScreenState extends State<AdminCategoryFormScreen> {
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 75, // Balanced for crisp details
+      maxWidth: 1024,
+    );
     if (pickedFile != null) {
       final appDir = await getApplicationDocumentsDirectory();
       final fileName = '${DateTime.now().millisecondsSinceEpoch}_${pickedFile.name}';

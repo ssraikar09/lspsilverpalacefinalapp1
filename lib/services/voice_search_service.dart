@@ -32,10 +32,10 @@ class VoiceSearchService {
       },
       listenOptions: SpeechListenOptions(
         listenFor: const Duration(seconds: 60),
-        pauseFor: const Duration(seconds: 5),
-        partialResults: true,
-        cancelOnError: true,
-        listenMode: ListenMode.dictation,
+        pauseFor: const Duration(seconds: 10), // Extremely forgiving for slow speech
+        partialResults: true, // Crucial for responsive feel while they speak
+        cancelOnError: false, // Don't abort if they take a moment to start talking
+        listenMode: ListenMode.dictation, // Dictation mode is generally better for continuous speech
       ),
     );
   }

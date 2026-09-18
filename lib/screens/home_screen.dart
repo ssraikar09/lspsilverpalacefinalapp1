@@ -77,15 +77,34 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Shri Laxmi Silver Palace',
-                            style: TextStyle(
-                              color: goldColor,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5,
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'assets/images/lsp_logo.png',
+                                  height: 54,
+                                  fit: BoxFit.contain,
+                                ),
+                                const SizedBox(width: 8),
+                                const Expanded(
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Shri Laxmi Silver Palace',
+                                      style: TextStyle(
+                                        color: goldColor,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          const SizedBox(width: 8),
                           ValueListenableBuilder<bool>(
                             valueListenable: NotificationService.hasNewCatalogUpdates,
                             builder: (context, hasNewCatalog, _) {
@@ -188,11 +207,19 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                             child: Container(
                               height: 50,
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.05),
+                                color: Colors.white.withValues(alpha: 0.03),
                                 borderRadius: BorderRadius.circular(25),
                                 border: Border.all(
-                                  color: Colors.white.withValues(alpha: 0.1),
+                                  color: goldColor.withValues(alpha: 0.2),
+                                  width: 1.0,
                                 ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: goldColor.withValues(alpha: 0.05),
+                                    blurRadius: 15,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
                               ),
                               padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: Row(
