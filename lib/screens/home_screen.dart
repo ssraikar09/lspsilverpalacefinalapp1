@@ -335,8 +335,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       children: [
         Text(
           title,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: goldColor,
             fontSize: 18,
             fontWeight: FontWeight.w600,
             letterSpacing: 0.5,
@@ -372,11 +372,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.05),
+                color: const Color(0xFF1E1E1E),
                 borderRadius: BorderRadius.circular(25),
                 border: Border.all(
-                  color: goldColor.withValues(alpha: 0.3),
-                  width: 1,
+                  color: goldColor.withValues(alpha: 0.45),
+                  width: 1.2,
                 ),
               ),
               child: Text(

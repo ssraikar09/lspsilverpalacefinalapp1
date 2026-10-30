@@ -31,9 +31,9 @@ class AppTheme {
         backgroundColor: darkBackground,
         elevation: 0,
         centerTitle: true,
-        iconTheme: IconThemeData(color: silverText),
+        iconTheme: IconThemeData(color: goldAccent),
         titleTextStyle: TextStyle(
-          color: silverText,
+          color: goldAccent,
           fontSize: 18,
           fontWeight: FontWeight.w600,
           letterSpacing: 2.0, // Luxury spacing
@@ -68,11 +68,11 @@ class AppTheme {
         ),
       ),
       textTheme: const TextTheme(
-        displayLarge: TextStyle(color: silverText, fontSize: 32, fontWeight: FontWeight.w300, letterSpacing: 1.5),
-        displayMedium: TextStyle(color: silverText, fontSize: 24, fontWeight: FontWeight.w400, letterSpacing: 1.2),
-        titleLarge: TextStyle(color: silverText, fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: 1.1),
-        titleMedium: TextStyle(color: silverText, fontSize: 16, fontWeight: FontWeight.w600),
-        bodyLarge: TextStyle(color: silverText, fontSize: 16, height: 1.5),
+        displayLarge: TextStyle(color: goldAccent, fontSize: 32, fontWeight: FontWeight.w300, letterSpacing: 1.5),
+        displayMedium: TextStyle(color: goldAccent, fontSize: 24, fontWeight: FontWeight.w400, letterSpacing: 1.2),
+        titleLarge: TextStyle(color: goldAccent, fontSize: 20, fontWeight: FontWeight.w600, letterSpacing: 1.1),
+        titleMedium: TextStyle(color: goldAccent, fontSize: 16, fontWeight: FontWeight.w600),
+        bodyLarge: TextStyle(color: goldAccent, fontSize: 16, height: 1.5),
         bodyMedium: TextStyle(color: Color(0xFFB0B0B0), fontSize: 14, height: 1.5),
         bodySmall: TextStyle(color: Color(0xFF909090), fontSize: 12),
       ),

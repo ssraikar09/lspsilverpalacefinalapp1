@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/sample_data.dart';
 import '../state/wishlist_state.dart';
+import '../theme/app_theme.dart';
 import '../widgets/product_card.dart';
 
 class WishlistScreen extends StatelessWidget {
@@ -9,8 +10,29 @@ class WishlistScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('WISHLIST'),
+        backgroundColor: Colors.black,
+        elevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppTheme.goldAccent, size: 24),
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
+          },
+        ),
+        iconTheme: const IconThemeData(color: AppTheme.goldAccent),
+        title: const Text(
+          'WISHLIST',
+          style: TextStyle(
+            color: AppTheme.goldAccent,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 2.0,
+          ),
+        ),
       ),
       body: SafeArea(
         child: ListenableBuilder(

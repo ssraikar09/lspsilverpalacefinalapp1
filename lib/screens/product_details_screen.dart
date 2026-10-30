@@ -383,7 +383,7 @@ Please provide more details.''';
         ),
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         decoration: BoxDecoration(
           color: Colors.black,
           border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.05))),
@@ -399,41 +399,87 @@ Please provide more details.''';
           child: Row(
             children: [
               Expanded(
-                child: OutlinedButton(
-                  onPressed: () async {
-                    String phone = '+919886855425'; // Fallback
-                    try {
-                      final response = await Supabase.instance.client.from('business_details').select('shop_phone').limit(1).maybeSingle();
-                      if (response != null && response['shop_phone'] != null && response['shop_phone'].toString().isNotEmpty) {
-                        phone = response['shop_phone'].toString();
+                child: SizedBox(
+                  height: 48,
+                  child: OutlinedButton(
+                    onPressed: () async {
+                      String phone = '+919886855425'; // Fallback
+                      try {
+                        final response = await Supabase.instance.client.from('business_details').select('shop_phone').limit(1).maybeSingle();
+                        if (response != null && response['shop_phone'] != null && response['shop_phone'].toString().isNotEmpty) {
+                          phone = response['shop_phone'].toString();
+                        }
+                      } catch (e) {
+                        // Ignore and use fallback
                       }
-                    } catch (e) {
-                      // Ignore and use fallback
-                    }
-                    
-                    final url = Uri.parse('tel:$phone');
-                    final success = await launchUrl(url);
-                    if (!success) {
-                      if (!context.mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Could not launch Phone Dialer.')),
-                      );
-                    }
-                  },
-                  child: const Text('CONTACT SHOP'),
+                      
+                      final url = Uri.parse('tel:$phone');
+                      final success = await launchUrl(url);
+                      if (!success) {
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Could not launch Phone Dialer.')),
+                        );
+                      }
+                    },
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      side: const BorderSide(color: Color(0xFFD4AF37), width: 1.2),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        'CONTACT SHOP',
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: Color(0xFFD4AF37),
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 12),
               Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () => _enquireOnWhatsApp(product),
-                  icon: const Icon(Icons.chat_bubble_outline, size: 18),
-                  label: const Text('WHATSAPP'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF25D366), // WhatsApp Green
-                    foregroundColor: Colors.white,
-                    elevation: 4,
-                    shadowColor: const Color(0xFF25D366).withValues(alpha: 0.3),
+                child: SizedBox(
+                  height: 48,
+                  child: ElevatedButton(
+                    onPressed: () => _enquireOnWhatsApp(product),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF25D366),
+                      foregroundColor: Colors.white,
+                      elevation: 4,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      shadowColor: const Color(0xFF25D366).withValues(alpha: 0.3),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.chat_bubble_outline, size: 18, color: Colors.white),
+                        SizedBox(width: 6),
+                        Flexible(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              'WHATSAPP',
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

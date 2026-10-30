@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../state/recently_viewed_state.dart';
+import '../theme/app_theme.dart';
 import '../widgets/product_card.dart';
 
 class RecentlyViewedScreen extends StatelessWidget {
@@ -8,12 +9,27 @@ class RecentlyViewedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(
+        backgroundColor: Colors.black,
+        elevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppTheme.goldAccent, size: 24),
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
+          },
+        ),
+        iconTheme: const IconThemeData(color: AppTheme.goldAccent),
+        title: const Text(
           'RECENTLY VIEWED',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          style: TextStyle(
+            color: AppTheme.goldAccent,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
             letterSpacing: 2.0,
-            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -22,7 +38,35 @@ class RecentlyViewedScreen extends StatelessWidget {
         builder: (context, _) {
           final products = recentlyViewedState.viewedProducts;
           if (products.isEmpty) {
-            return const Center(child: Text('You have not viewed any products yet.'));
+            return const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.history,
+                    size: 64,
+                    color: AppTheme.goldAccent,
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'No Recently Viewed Products',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Products you view will appear here.',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            );
           }
           
           return GridView.builder(

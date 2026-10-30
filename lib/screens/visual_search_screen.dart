@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../services/visual_search_service.dart';
+import '../theme/app_theme.dart';
 import '../widgets/product_card.dart';
 
 class VisualSearchScreen extends StatefulWidget {
@@ -73,13 +74,77 @@ class _VisualSearchScreenState extends State<VisualSearchScreen> {
                   style: TextStyle(color: Colors.grey),
                 ),
               ] else if (_error != null) ...[
-                const SizedBox(height: 24),
-                const Icon(Icons.error_outline, color: Colors.redAccent, size: 48),
-                const SizedBox(height: 16),
-                Text(
-                  _error!,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.redAccent),
+                const SizedBox(height: 28),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF161616),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: AppTheme.goldAccent.withValues(alpha: 0.25),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 1,
+                            width: 36,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.transparent,
+                                  AppTheme.goldAccent.withValues(alpha: 0.6),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          const Icon(
+                            Icons.filter_vintage,
+                            color: AppTheme.goldAccent,
+                            size: 36,
+                          ),
+                          const SizedBox(width: 10),
+                          Container(
+                            height: 1,
+                            width: 36,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  AppTheme.goldAccent.withValues(alpha: 0.6),
+                                  Colors.transparent,
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        _error!,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: AppTheme.goldAccent,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Try capturing another angle or lighting to find matching jewellery.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.6),
+                          fontSize: 13,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ] else if (_result != null && _result!.isBackendConfigured) ...[
                 const SizedBox(height: 16),

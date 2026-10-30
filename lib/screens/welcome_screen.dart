@@ -228,11 +228,11 @@ class WordByWordReveal extends StatefulWidget {
   final Duration initialDelay;
 
   const WordByWordReveal({
-    Key? key,
+    super.key,
     required this.text,
     this.style,
     required this.initialDelay,
-  }) : super(key: key);
+  });
 
   @override
   State<WordByWordReveal> createState() => _WordByWordRevealState();
