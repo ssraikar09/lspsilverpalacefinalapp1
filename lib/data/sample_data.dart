@@ -167,7 +167,7 @@ class SampleData {
     }
     
     var json = c.toJson();
-    json['image_url'] = finalImageUrl;
+    json['image_url'] = finalImageUrl.isNotEmpty ? finalImageUrl : null;
     if (!json['id'].contains('-')) {
       json.remove('id'); // let Supabase generate UUID
     }
@@ -186,7 +186,7 @@ class SampleData {
     }
     
     var json = c.toJson();
-    json['image_url'] = finalImageUrl;
+    json['image_url'] = finalImageUrl.isNotEmpty ? finalImageUrl : null;
     json.remove('id');
     
     await client.from('categories').update(json).eq('id', c.id);

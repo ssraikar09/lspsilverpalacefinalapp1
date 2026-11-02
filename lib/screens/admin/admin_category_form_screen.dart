@@ -69,8 +69,8 @@ class _AdminCategoryFormScreenState extends State<AdminCategoryFormScreen> {
 
       final newCategory = CategoryModel(
         id: _id,
-        name: _nameController.text,
-        description: _descController.text,
+        name: _nameController.text.trim(),
+        description: _descController.text.trim(),
         imagePath: _imagePath ?? '',
       );
       
@@ -129,9 +129,8 @@ class _AdminCategoryFormScreenState extends State<AdminCategoryFormScreen> {
               ),
               TextFormField(
                 controller: _descController,
-                decoration: const InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(labelText: 'Description (Optional)'),
                 maxLines: 3,
-                validator: (v) => v!.isEmpty ? 'Required' : null,
               ),
               const SizedBox(height: 16),
               Row(
