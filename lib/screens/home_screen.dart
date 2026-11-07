@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../data/sample_data.dart';
 import '../models/product.dart';
