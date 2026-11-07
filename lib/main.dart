@@ -12,8 +12,7 @@ void main() async {
     url: 'https://heunbefkeflaaluvnxhv.supabase.co',
     publishableKey: 'sb_publishable_cjoixtoRF_PqSsp6_WVaWQ_gLgAsolG',
   );
-  // Fetch sample data concurrently in background so UI opens instantly without delay
-  SampleData.init();
+  await SampleData.init();
   runApp(const LspApp());
 }
 

@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import '../navigation/app_routes.dart';
 import '../state/auth_state.dart';
@@ -19,27 +20,28 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     globalAuthState.loginAsGuest();
     
-    // Snappy timeline: Logo appears immediately on open, completes within ~1.5s
+    // Main timeline ~5.5 seconds for the full cinematic effect
     _mainController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 5500),
     );
 
-    // 1. Logo scale & fade - Immediately visible from frame 0
-    _logoLSPReveal = Tween<double>(begin: 0.92, end: 1.0).animate(
-      CurvedAnimation(parent: _mainController, curve: const Interval(0.0, 0.35, curve: Curves.easeOutCubic)),
+    // 1. Logo L-S-P reveal (Left to Right sweep)
+    _logoLSPReveal = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _mainController, curve: const Interval(0.0, 0.20, curve: Curves.easeInOut)),
     );
 
     // Ornament scales from center
     _ornamentScale = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _mainController, curve: const Interval(0.35, 0.52, curve: Curves.easeOutBack)),
+      CurvedAnimation(parent: _mainController, curve: const Interval(0.55, 0.65, curve: Curves.easeOutBack)),
     );
 
     // Final screen fade out before navigation
     _screenFadeOut = Tween<double>(begin: 1.0, end: 0.0).animate(
-      CurvedAnimation(parent: _mainController, curve: const Interval(0.86, 1.0, curve: Curves.easeOut)),
+      CurvedAnimation(parent: _mainController, curve: const Interval(0.9, 1.0, curve: Curves.easeOut)),
     );
 
     _mainController.forward().then((_) {
@@ -57,6 +59,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
 
   @override
   void dispose() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     _mainController.dispose();
     super.dispose();
   }
@@ -78,22 +81,29 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
               children: [
                 const Spacer(flex: 2),
                 
-                // 1. REAL LSP LOGO - Visible Immediately with smooth scale
+                // 1. REAL LSP LOGO - Premium Sweep Reveal
                 AnimatedBuilder(
                   animation: _mainController,
                   builder: (context, child) {
+                    // Combine scale and sweep for a highly attractive entrance
                     return Transform.scale(
-                      scale: _logoLSPReveal.value,
-                      child: Image.asset(
-                        'assets/images/lsp_logo.png',
-                        height: 190,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) => Text(
-                          'LSP',
-                          style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                            color: luxuryGold,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 8.0,
+                      scale: 0.9 + (_logoLSPReveal.value * 0.1), // Scales from 0.9 to 1.0
+                      child: ClipRect(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          widthFactor: _logoLSPReveal.value, // Sweeps from left to right
+                          child: Image.asset(
+                            'assets/images/lsp_logo.png',
+                            height: 190,
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) => Text(
+                              'LSP',
+                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                                color: luxuryGold,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 8.0,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -111,7 +121,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
                     color: luxuryGold,
                     fontSize: 22,
                   ),
-                  initialDelay: const Duration(milliseconds: 100),
+                  initialDelay: const Duration(milliseconds: 1600),
                 ),
                 const SizedBox(height: 4),
                 WordByWordReveal(
@@ -122,7 +132,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
                     color: luxuryGold,
                     fontSize: 28,
                   ),
-                  initialDelay: const Duration(milliseconds: 250),
+                  initialDelay: const Duration(milliseconds: 2000),
                 ),
                 const SizedBox(height: 4),
                 WordByWordReveal(
@@ -133,7 +143,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
                     color: luxuryGold,
                     fontSize: 22,
                   ),
-                  initialDelay: const Duration(milliseconds: 400),
+                  initialDelay: const Duration(milliseconds: 2600),
                 ),
                 
                 const SizedBox(height: 24),
@@ -169,7 +179,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),
-                  initialDelay: const Duration(milliseconds: 550),
+                  initialDelay: const Duration(milliseconds: 3200),
                 ),
                 const SizedBox(height: 6),
                 WordByWordReveal(
@@ -180,7 +190,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),
-                  initialDelay: const Duration(milliseconds: 650),
+                  initialDelay: const Duration(milliseconds: 3800),
                 ),
                 const SizedBox(height: 6),
                 WordByWordReveal(
@@ -191,7 +201,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                   ),
-                  initialDelay: const Duration(milliseconds: 750),
+                  initialDelay: const Duration(milliseconds: 4300),
                 ),
                 
                 const Spacer(flex: 3),
@@ -239,7 +249,9 @@ class _WordByWordRevealState extends State<WordByWordReveal> with SingleTickerPr
   void initState() {
     super.initState();
     words = widget.text.split(' ');
-    int totalDuration = (words.length * 150) + 300;
+    
+    // 300ms per word delay + 500ms duration for the individual word animation
+    int totalDuration = (words.length * 300) + 500;
     _controller = AnimationController(vsync: this, duration: Duration(milliseconds: totalDuration));
     Future.delayed(widget.initialDelay, () {
       if (mounted) _controller.forward();
@@ -258,15 +270,15 @@ class _WordByWordRevealState extends State<WordByWordReveal> with SingleTickerPr
     for (int i = 0; i < words.length; i++) {
       String word = words[i];
       
-      double start = (i * 150.0) / _controller.duration!.inMilliseconds;
-      double end = start + (300.0 / _controller.duration!.inMilliseconds);
+      double start = (i * 300.0) / _controller.duration!.inMilliseconds;
+      double end = start + (500.0 / _controller.duration!.inMilliseconds);
       if (end > 1.0) end = 1.0;
 
       Animation<double> opacity = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(parent: _controller, curve: Interval(start, end, curve: Curves.easeIn)),
       );
       // Upward movement
-      Animation<Offset> offset = Tween<Offset>(begin: const Offset(0, 0.4), end: Offset.zero).animate(
+      Animation<Offset> offset = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero).animate(
         CurvedAnimation(parent: _controller, curve: Interval(start, end, curve: Curves.easeOutCubic)),
       );
 

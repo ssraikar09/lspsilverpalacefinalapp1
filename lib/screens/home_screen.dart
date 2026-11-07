@@ -18,9 +18,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
+    if (SampleData.products.isEmpty || SampleData.categoryModels.isEmpty) {
+      SampleData.init();
+    }
     _animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1200),
+      duration: const Duration(milliseconds: 300),
     );
     _animController.forward();
     NotificationService.startPolling();
@@ -63,7 +66,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           ),
           
           SafeArea(
-            child: SingleChildScrollView(
+            child: RefreshIndicator(
+              color: goldColor,
+              backgroundColor: Colors.grey[900],
+              onRefresh: () async {
+                await SampleData.init();
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
@@ -265,6 +275,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           valueListenable: SampleData.globalProductState,
                           builder: (context, value, child) {
                             final categories = SampleData.categoryModels;
+                            if (categories.isEmpty) {
+                              return const Center(
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(strokeWidth: 2.0, color: goldColor),
+                                ),
+                              );
+                            }
                             return ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: categories.length,
@@ -295,7 +314,16 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         builder: (context, value, child) {
                           final products = SampleData.products;
                           if (products.isEmpty) {
-                            return const Center(child: Text('No products available.', style: TextStyle(color: Colors.white54)));
+                            return const Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(24.0),
+                                child: SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(strokeWidth: 2.0, color: goldColor),
+                                ),
+                              ),
+                            );
                           }
                           return GridView.builder(
                             physics: const NeverScrollableScrollPhysics(),
@@ -321,6 +349,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   ],
                 ),
               ),
+            ),
             ),
           ),
         ],

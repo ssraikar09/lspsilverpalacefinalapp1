@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -30,24 +32,58 @@ class SampleData {
 
   static List<Product> products = [];
 
-  static Future<void> init() async {
+  static Future<void>? _loadingFuture;
+
+  static Future<void> init() {
+    if (_loadingFuture != null && products.isNotEmpty) {
+      return _loadingFuture!;
+    }
+    _loadingFuture = _fetchCatalog();
+    return _loadingFuture!;
+  }
+
+  static Future<void> _fetchCatalog() async {
     final client = Supabase.instance.client;
-    
-    // Fetch categories
-    try {
-      final catResponse = await client.from('categories').select();
-      categoryModels = catResponse.map((e) => CategoryModel.fromJson(e)).toList();
-    } catch (e) {
-      debugPrint('Error fetching categories: $e');
+    final prefs = await SharedPreferences.getInstance();
+
+    // Instant local cache restoration
+    if (products.isEmpty) {
+      final cachedCats = prefs.getString('cached_categories');
+      if (cachedCats != null) {
+        try {
+          final List decoded = jsonDecode(cachedCats);
+          categoryModels = decoded.map((e) => CategoryModel.fromJson(e)).toList();
+        } catch (_) {}
+      }
+      final cachedProds = prefs.getString('cached_products');
+      if (cachedProds != null) {
+        try {
+          final List decoded = jsonDecode(cachedProds);
+          products = decoded.map((e) => Product.fromJson(e)).toList();
+        } catch (_) {}
+      }
+      if (products.isNotEmpty) {
+        globalProductState.value++;
+      }
     }
 
-    // Fetch products
+    // High-speed parallel network fetch (< 1s)
     try {
-      final prodResponse = await client.from('products').select();
+      final results = await Future.wait([
+        client.from('categories').select(),
+        client.from('products').select(),
+      ]);
+      final catResponse = results[0] as List<dynamic>;
+      final prodResponse = results[1] as List<dynamic>;
+      categoryModels = catResponse.map((e) => CategoryModel.fromJson(e)).toList();
       products = prodResponse.map((e) => Product.fromJson(e)).toList();
+
+      prefs.setString('cached_categories', jsonEncode(catResponse));
+      prefs.setString('cached_products', jsonEncode(prodResponse));
     } catch (e) {
-      debugPrint('Error fetching products: $e');
+      debugPrint("Error fetching catalog: $e");
     }
+    globalProductState.value++;
   }
 
   // Helper to upload image to Supabase Storage
