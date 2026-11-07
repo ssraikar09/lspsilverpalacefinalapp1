@@ -46,12 +46,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> with TickerProviderStateM
 
     _mainController.forward().then((_) {
       if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => const SizedBox(), 
-          ),
-        );
         Navigator.pushReplacementNamed(context, AppRoutes.main);
       }
     });
