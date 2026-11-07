@@ -30,6 +30,7 @@ class CustomNetworkImage extends StatelessWidget {
 
     return Image.network(
       imageUrl,
+      cacheWidth: 600,
       fit: fit,
       loadingBuilder: (context, child, loadingProgress) {
         if (loadingProgress == null) return child;

@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 await SampleData.init();
               },
               child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
@@ -210,29 +210,25 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                         onTap: () {
                           Navigator.pushNamed(context, AppRoutes.search);
                         },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.03),
-                                borderRadius: BorderRadius.circular(25),
-                                border: Border.all(
-                                  color: goldColor.withValues(alpha: 0.2),
-                                  width: 1.0,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: goldColor.withValues(alpha: 0.05),
-                                    blurRadius: 15,
-                                    spreadRadius: 2,
-                                  ),
-                                ],
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF161616),
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: goldColor.withValues(alpha: 0.2),
+                              width: 1.0,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: goldColor.withValues(alpha: 0.05),
+                                blurRadius: 15,
+                                spreadRadius: 2,
                               ),
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
+                            ],
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
                                 children: [
                                   const Icon(Icons.search, color: lightGrey, size: 22),
                                   const SizedBox(width: 12),
@@ -251,8 +247,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                 ],
                               ),
                             ),
-                          ),
-                        ),
                       ),
                     ),
                     const SizedBox(height: 32),
@@ -393,29 +387,23 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         onTap: () {
           Navigator.pushNamed(context, AppRoutes.productListing, arguments: {'category': name});
         },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(25),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: const Color(0xFF1E1E1E),
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(
-                  color: goldColor.withValues(alpha: 0.45),
-                  width: 1.2,
-                ),
-              ),
-              child: Text(
-                name,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: const Color(0xFF1E1E1E),
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(
+              color: goldColor.withValues(alpha: 0.45),
+              width: 1.2,
+            ),
+          ),
+          child: Text(
+            name,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -452,6 +440,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 child: product.imageUrls.isNotEmpty
                     ? Image.network(
                         product.imageUrls.first,
+                        cacheWidth: 600,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => const Center(
                           child: Icon(Icons.broken_image, color: Colors.grey),
@@ -510,29 +499,23 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 ),
               ),
 
-              // Heart Icon Glassmorphism
+              // Heart Icon
               Positioned(
                 top: 8,
                 right: 8,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.3),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.2),
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.favorite_border,
-                        color: goldColor,
-                        size: 16,
-                      ),
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.5),
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.2),
                     ),
+                  ),
+                  child: Icon(
+                    Icons.favorite_border,
+                    color: goldColor,
+                    size: 16,
                   ),
                 ),
               ),
