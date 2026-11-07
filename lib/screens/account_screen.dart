@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../navigation/app_routes.dart';
+import '../navigation/main_layout.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -228,11 +229,7 @@ class _AccountScreenState extends State<AccountScreen> {
             pinned: true,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: goldColor, size: 24),
-              onPressed: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-              },
+              onPressed: () => MainLayoutState.navigateToHome(context),
             ),
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,

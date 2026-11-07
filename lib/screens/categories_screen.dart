@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/sample_data.dart';
 import '../widgets/custom_network_image.dart';
+import '../navigation/main_layout.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -23,11 +24,7 @@ class CategoriesScreen extends StatelessWidget {
             elevation: 0,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: goldColor, size: 24),
-              onPressed: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                }
-              },
+              onPressed: () => MainLayoutState.navigateToHome(context),
             ),
             title: const Text(
               'Categories',

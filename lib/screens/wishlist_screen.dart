@@ -3,6 +3,7 @@ import '../data/sample_data.dart';
 import '../state/wishlist_state.dart';
 import '../theme/app_theme.dart';
 import '../widgets/product_card.dart';
+import '../navigation/main_layout.dart';
 
 class WishlistScreen extends StatelessWidget {
   const WishlistScreen({super.key});
@@ -17,11 +18,7 @@ class WishlistScreen extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppTheme.goldAccent, size: 24),
-          onPressed: () {
-            if (Navigator.canPop(context)) {
-              Navigator.pop(context);
-            }
-          },
+          onPressed: () => MainLayoutState.navigateToHome(context),
         ),
         iconTheme: const IconThemeData(color: AppTheme.goldAccent),
         title: const Text(

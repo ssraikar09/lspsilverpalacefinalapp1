@@ -9,11 +9,32 @@ class MainLayout extends StatefulWidget {
   const MainLayout({super.key});
 
   @override
-  State<MainLayout> createState() => _MainLayoutState();
+  State<MainLayout> createState() => MainLayoutState();
 }
 
-class _MainLayoutState extends State<MainLayout> {
+class MainLayoutState extends State<MainLayout> {
   int _currentIndex = 0;
+
+  void setTab(int index) {
+    if (mounted) {
+      setState(() {
+        _currentIndex = index;
+      });
+    }
+  }
+
+  static void navigateToHome(BuildContext context) {
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    } else {
+      final state = context.findAncestorStateOfType<MainLayoutState>();
+      if (state != null) {
+        state.setTab(0);
+      } else {
+        Navigator.pushReplacementNamed(context, '/main');
+      }
+    }
+  }
 
   final List<Widget> _screens = const [
     HomeScreen(),
