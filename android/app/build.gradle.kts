@@ -27,8 +27,8 @@ android {
         applicationId = "com.shrilaxmisilverpalace.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode ?: 4
-        versionName = flutter.versionName ?: "1.0.3"
+        versionCode = flutter.versionCode ?: 5
+        versionName = flutter.versionName ?: "1.0.4"
     }
 
     signingConfigs {
